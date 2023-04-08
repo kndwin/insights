@@ -1,12 +1,16 @@
-import { initTRPC } from '@trpc/server';
-import type { Context } from './context';
-import { transformer } from '$lib/trpc/transformer';
+import { initTRPC, type inferAsyncReturnType } from '@trpc/server';
+import { db } from '../db/connection';
 
-const t = initTRPC.context<Context>().create({
-	transformer,
-	// errorFormatter: (shape) => ({ ...shape }),
-});
+const createContext = () => {
+	return {
+		db,
+	};
+};
 
+type Context = inferAsyncReturnType<typeof createContext>;
+
+const t = initTRPC.context<Context>().create();
+
+// Base router and procedure helpers
 export const router = t.router;
-
-export const publicProcedure = t.procedure;
+export const procedure = t.procedure;

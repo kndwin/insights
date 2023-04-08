@@ -12,5 +12,11 @@
 		"alwaysStrict": true,
 		"allowSyntheticDefaultImports": true,
 		"noUncheckedIndexedAccess": true,
+		"baseUrl": ".",
+		"paths": {
+			"~/*": ["./src/*"],
+			"$lib": ["./src/lib"],
+			"$lib/*": ["./src/lib/*"]
+		}
 	}
 }

@@ -1,16 +1,20 @@
-import { appRouter } from '$lib/server/routes/_app';
-import { createContext } from '$lib/server/context';
-import { fetchRequestHandler } from '@trpc/server/adapters/fetch';
-import type { RequestHandler } from './$types';
+import { createTRPCRequestHandler } from '@bevm0/trpc-sveltekit';
+import { type AppRouter, appRouter } from '~/lib/server/routers';
+import type { RouteParams, RouteId } from './$types';
 
-const handler: RequestHandler = async (event) => {
-	return fetchRequestHandler({
-		endpoint: '/api/trpc',
-		req: event.request,
-		router: appRouter,
-		createContext,
-	});
-};
+// export GET and POST SvelteKit request handler
+// @see https://trpc.io/docs/api-handler
+// @see https://kit.svelte.dev/docs/routing#server
 
-export const GET = handler;
-export const POST = handler;
+const requestHandler = createTRPCRequestHandler<
+	AppRouter,
+	RouteParams,
+	RouteId
+>({
+	endpoint: '/api/trpc',
+	router: appRouter,
+	createContext: (opts, event) => ({ opts, event }),
+});
+
+export const GET = requestHandler;
+export const POST = requestHandler;

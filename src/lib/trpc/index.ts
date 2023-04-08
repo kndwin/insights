@@ -1,14 +1,7 @@
-import { createTRPCSvelte } from 'trpc-svelte-query';
-import { ssrLink } from 'trpc-svelte-query/ssr';
 import { httpBatchLink } from '@trpc/client';
-import type { AppRouter } from '$lib/server/routes/_app';
-import { transformer } from './transformer';
+import { createTRPCSvelte } from '@bevm0/trpc-svelte-query';
+import type { AppRouter } from '~/lib/server/routers';
 
 export const trpc = createTRPCSvelte<AppRouter>({
-	links: [
-		ssrLink(httpBatchLink)({
-			url: '/api/trpc',
-		}),
-	],
-	transformer,
+	links: [httpBatchLink({ url: 'http://localhost:5173/api/trpc' })],
 });
