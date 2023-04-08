@@ -3,6 +3,7 @@ import { createTRPCSvelte } from '@bevm0/trpc-svelte-query';
 import { QueryClient } from '@tanstack/svelte-query';
 import type { AppRouter } from '~/lib/server/routers';
 import type { LayoutLoad } from './$types';
+import { base } from '$app/paths';
 
 export const load: LayoutLoad = async (event) => {
 	const queryClient = new QueryClient();
@@ -11,7 +12,7 @@ export const load: LayoutLoad = async (event) => {
 		{
 			links: [
 				httpBatchLink({
-					url: 'http://localhost:5173/api/trpc',
+					url: `${base}/api/trpc`,
 					fetch: event.fetch,
 				}),
 			],

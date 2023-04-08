@@ -1,6 +1,7 @@
 import { createTRPCRequestHandler } from '@bevm0/trpc-sveltekit';
 import { type AppRouter, appRouter } from '~/lib/server/routers';
 import type { RouteParams, RouteId } from './$types';
+import { db } from '~/lib/db';
 
 // export GET and POST SvelteKit request handler
 // @see https://trpc.io/docs/api-handler
@@ -13,7 +14,7 @@ const requestHandler = createTRPCRequestHandler<
 >({
 	endpoint: '/api/trpc',
 	router: appRouter,
-	createContext: (opts, event) => ({ opts, event }),
+	createContext: (opts, event) => ({ opts, event, db }),
 });
 
 export const GET = requestHandler;
